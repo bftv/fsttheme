@@ -47,3 +47,8 @@
 	line-height: 1.13043;
 	color: #335377;
 }
+
+/* Fixes marketing highlight boxes font size */
+.marketing-highlight__type span {
+	font-size: 1.50rem;
+}
