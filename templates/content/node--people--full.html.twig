@@ -15,9 +15,9 @@
     {{ content.field_sf_primary_image }}
   </div>
   {% set fullname %}
-      {{ content.field_sf_name_prefix }} {{ content.field_sf_first_name }} {{ content.field_sf_middle_initial }} {{ content.field_sf_last_name }}
-	  {% if node.field_sf_credentials is not empty %}
-		, {{ content.field_sf_credentials }}
+      {{ content.field_sf_name_prefix }} {{ content.field_sf_first_name }} {{ content.field_sf_middle_initial }} {% spaceless %}{{ content.field_sf_last_name }}{% endspaceless %}
+	  {%- if node.field_sf_credentials is not empty %}	  
+	  {{- "," }} {{ content.field_sf_credentials }}
 	  {% endif %}
   {% endset %}
   <h1 class="u-space-bottom--small">{{ fullname |striptags }}</h1>
