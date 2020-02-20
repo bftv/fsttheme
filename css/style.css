@@ -52,3 +52,7 @@
 .marketing-highlight__type span {
 	font-size: 1.50rem;
 }
+/* Don't show Google Scholar username */
+.field--name-field-google-scholar-username {
+	display: none;
+}
