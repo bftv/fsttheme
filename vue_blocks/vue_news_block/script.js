@@ -33,7 +33,9 @@ var newsList = Vue.extend({
 			itemsShown: 10,
 			listShow: false,
 			department: 'bftv',
+			category: 'none',
 			diffPage: false,
+			lasturl: '',
 			mainNewsPage: ''
         }
     },
@@ -42,12 +44,18 @@ var newsList = Vue.extend({
 		this.itemsShown = drupalSettings.pdb.configuration[blockID].itemsPerPage,
 		this.listShow = drupalSettings.pdb.configuration[blockID].ShowListing,
 		this.department = drupalSettings.pdb.configuration[blockID].Department,
+		this.category = drupalSettings.pdb.configuration[blockID].Category,
 		this.diffPage = drupalSettings.pdb.configuration[blockID].DiffPage,
 		gDiffPage = this.diffPage,
 		this.mainNewsPage = drupalSettings.pdb.configuration[blockID].MainNewsPage,
-		firstURL = this.URLBuilder(this.department),
-		finalURL = APIurl+firstURL+'&page[limit]='+this.itemsShown,
-		this.getNewsList(finalURL)	
+		firstURL = this.URLBuilder(this.department, this.category)
+		if(this.itemsShown > 0){
+			finalURL = APIurl+firstURL+'&page[limit]='+this.itemsShown
+		} else {
+			finalURL = APIurl+firstURL
+		}
+		this.getNewsList(finalURL),
+		this.lasturl = finalURL
 	},
 
     methods: {
@@ -68,21 +76,41 @@ var newsList = Vue.extend({
 		goNewsLink: function(uuid) {
 			window.location.href = this.mainNewsPage+'#/news/'+uuid
 		},
-		URLBuilder: function(path){	
+		URLBuilder: function(path, cat){	
 			if(path == 'bftv'){
 				return '&include=field_sf_primary_image'
 			}
 			else if(path == 'bae'){
-				return '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=9a04d3a5-d0b8-4c0b-8649-11fb9179759a&include=field_sf_primary_image'
+				var filterurl = '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=9a04d3a5-d0b8-4c0b-8649-11fb9179759a';				
+				if(cat == 'awards_and_honors'){
+					filterurl += '&filter[category][condition][path]=field_bftv_news_category.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=af245d3f-abc0-4652-98d5-17de82ab13a2';
+				}				
+				filterurl += '&include=field_sf_primary_image';
+				return filterurl;
 			}
 			else if(path == 'fst'){
-				return '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=ce16a904-890b-4ddd-8954-41b13dea0b3d&include=field_sf_primary_image'
+				var filterurl = '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=ce16a904-890b-4ddd-8954-41b13dea0b3d';				
+				if(cat == 'awards_and_honors'){
+					filterurl += '&filter[category][condition][path]=field_bftv_news_category.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=af245d3f-abc0-4652-98d5-17de82ab13a2';
+				}				
+				filterurl += '&include=field_sf_primary_image';
+				return filterurl;
 			}
 			else if (path == 'ven'){
-				return '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=a136800e-308a-4672-a42d-141b4cb9e594&include=field_sf_primary_image'
+				var filterurl = '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=a136800e-308a-4672-a42d-141b4cb9e594';
+				if(cat == 'awards_and_honors'){
+					filterurl += '&filter[category][condition][path]=field_bftv_news_category.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=af245d3f-abc0-4652-98d5-17de82ab13a2';
+				}
+				filterurl += '&include=field_sf_primary_image';
+				return filterurl;
 			}
 			else if (path == 'txc'){
-				return '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=4eed687e-715b-405f-b5fb-1a32039ec0f3&include=field_sf_primary_image'
+				var filterurl = '&filter[category][condition][path]=field_fbtv_news_for.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=4eed687e-715b-405f-b5fb-1a32039ec0f3';
+				if(cat == 'awards_and_honors'){
+					filterurl += '&filter[category][condition][path]=field_bftv_news_category.id&filter[category][condition][operator]=%3D&filter[category][condition][value]=af245d3f-abc0-4652-98d5-17de82ab13a2';
+				}
+				filterurl += '&include=field_sf_primary_image';
+				return filterurl;
 			}
 		}
 	},
