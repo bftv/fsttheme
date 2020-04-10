@@ -56,3 +56,7 @@
 .field--name-field-google-scholar-username {
 	display: none;
 }
+/* Wider column for awards page */
+.fst-wide-column {
+	width: 18%;
+}
