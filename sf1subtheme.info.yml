@@ -14,7 +14,7 @@ ckeditor_stylesheets:
   - css/ckeditor.css
 
 regions:
-  hheader: Header
+  header: Header
   navigation: Navigation
   quick_links: Quick Links
   search: Search
