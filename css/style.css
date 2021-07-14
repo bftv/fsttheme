@@ -36,6 +36,9 @@
 	padding-right: .5em; 
 	margin-right: .25em;
 }
+article[class*='category-brand--']{
+	--category-brand-contrast-color: #666;
+}
 
 /* Fixes the Research Advisor field on People's page */
 .heading--research {
