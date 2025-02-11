@@ -1,6 +1,6 @@
 /* Main URLs */
-guserelement = document.getElementsByClassName('field--name-field-google-scholar-username');
-gsusername = "";
+var guserelement = document.getElementsByClassName('field--name-field-google-scholar-username');
+var gsusername = "";
 if(guserelement.length > 0){
 	gsusername = document.getElementsByClassName('field--name-field-google-scholar-username')[0].innerHTML;
 	guserexist = true;
@@ -18,30 +18,35 @@ var pubList = {
     template: '#pub-list-template',
 
     data: function() {
-        return {
-            pubData: [],
-			error: [],
-			errorbolean: false,
-			glink: "",
-			guser: true,
-			loading: true
-        }
+			return {
+				pubData: [],
+				error: [],
+				errorbolean: false,
+				glink: "",
+				guseraccount: "",
+				guser: true,
+				loading: true
+			}
     },
 	
 	mounted: function() {
+		this.guseraccount = gsusername
 		this.guser = guserexist,
 		this.getPubList(MainURL),
 		this.glink = "https://scholar.google.com/citations?user="+gsusername+"&cstart=0&pagesize=100&view_op=list_works&sortby=pubdate"
 	},
 
     methods: {
-        getPubList: function(url){		
+      getPubList: function(url){		
 			axios.get(url).then(response => {				
 				dresponse = response.data					
 				if(typeof dresponse != "string"){
 					this.pubData.push(response.data.publications),
 					this.loading = false
-				}			
+				} else if(typeof dresponse == "string"){console.log('yes');
+					this.guser = false,
+					this.loading = false
+				}
 			}).catch(e => {
 				this.error.push(e),
 				this.errorbolean = true,
